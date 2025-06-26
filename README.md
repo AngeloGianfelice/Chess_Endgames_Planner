@@ -1,1 +1,1 @@
-# Automated-Planning-and-Reasoning-in-Chess-Endgames
+# Automated Planning and Reasoning in Chess Endgames
