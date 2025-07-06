@@ -710,20 +710,19 @@
       
       ;; is king trapped??
       (forall (?adj - square)
-        (imply
-          (adjacent ?kpos ?adj)
-          (or
+        (or
+            (not (adjacent ?kpos ?adj))
             (occupied_by_color ?adj ?c)
             (exists (?wp - piece)
-              (and
-                (belongs_to ?wp white)
-                (attacked_by ?wp ?adj)
-              )
+                (and
+                    (belongs_to ?wp white)
+                    (attacked_by ?wp ?adj)
+                )
             )
-          )
         )
-      )
     )
+
+)
     :effect (checkmate ?c)
   )
 )
