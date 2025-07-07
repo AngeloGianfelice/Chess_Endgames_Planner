@@ -6,6 +6,8 @@
   )
 
   (:predicates
+  
+    ;; pieces related predicates
     (at ?p - piece ?s - square)
     (belongs_to ?p - piece ?c - color)
     (checkmate ?c - color)
@@ -17,27 +19,39 @@
     (is_bishop ?p - piece)
     (is_knight ?p - piece)
     (is_pawn ?p - piece)
-    (same_rank ?s1 - square ?s2 - square)
-    (same_file ?s1 - square ?s2 - square)
-    (same_diagonal ?s1 - square ?s2 - square)
-    (knight_move ?s1 - square ?s2 - square)
-    (adjacent ?s1 - square ?s2 - square)
+    
+    ;; turn predicates
+    (white_turn)
+    (black_turn)
+    
+    ;; attacked square update predicates
     (to_update_king)
     (to_update_knight)
     (to_update_rook)
     (to_update_bishop)
     (to_update_queen)
-    (white_turn)
-    (black_turn)
-    (between ?from - square ?to - square ?mid - square)
-
-    ;; New predicates for attacked squares per piece
+    
+    ;; board related predicates 
     (attacked_by ?p - piece ?s - square)
+    (same_rank ?s1 - square ?s2 - square)
+    (same_file ?s1 - square ?s2 - square)
+    (same_diagonal ?s1 - square ?s2 - square)
+    (between ?from - square ?to - square ?mid - square)
+    (knight_move ?s1 - square ?s2 - square)
+    (adjacent ?s1 - square ?s2 - square)
   )
+
+;; ----------------------------
+;; MOVES COUNTER NUMERIC FLUENT
+;; ----------------------------
 
   (:functions
     (white_moves)                        
   )
+  
+;; -------------------------------
+;; ATTACKED SQUARES UPDATE ACTIONS
+;; -------------------------------
 
 (:action update_attack_status_knight
   :parameters (?p - piece ?s - square)
@@ -165,7 +179,11 @@
     (not (to_update_queen))
   )
 )
-  
+
+;; -------------------
+;; WHITE MOVES ACTIONS
+;; -------------------
+
   (:action move_white_knight
     :parameters (?p - piece ?from - square ?to - square ?k - piece ?kpos - square)
     :precondition (and
@@ -183,7 +201,7 @@
       (not(to_update_knight))
     )
     :effect (and
-        ;; Standard move effects
+        ;; standard move effects
         (black_turn)
         (not (white_turn))
         (not (at ?p ?from))
@@ -192,7 +210,7 @@
         (occupied_by_color ?to white)
         (increase (white_moves) 1)
         
-        ;;capture detection
+        ;; capture detection
         (when (occupied_by_color ?to black) (not (occupied_by_color ?to black)))
         (forall (?b - piece)
             (when (and (at ?b ?to) (belongs_to ?b black))
@@ -200,7 +218,7 @@
             )
         )
 
-        ;; Check detection (same as before)
+        ;; check detection
         (when (knight_move ?to ?kpos) (king_in_check black))
         
         (forall (?s - square)
@@ -498,6 +516,7 @@
         (to_update_queen)
             )
           )
+          
     (:action move_queen_vertically
     :parameters (?p - piece ?from - square ?to - square ?k - piece ?kpos - square)
     :precondition (and
@@ -622,9 +641,10 @@
         )
     )
           
-  ;; -------------------
-  ;; ACTION: MOVE BLACK (HARD-CODED)
-  ;; -------------------
+ ;; ------------------
+ ;; ACTION: BLACK MOVE
+ ;; ------------------
+  
   (:action move_black
     :parameters (?p - piece ?from - square ?to - square)
     :precondition (and
@@ -655,6 +675,10 @@
       (not (king_in_check black))
     )
   )
+
+;; ---------------------
+;; ACTION: BLACK CAPTURE
+;; ---------------------
 
  (:action black_capture
     :parameters (?p - piece ?from - square ?to - square ?att - piece)
@@ -690,9 +714,11 @@
       (not (king_in_check black))
   )
  )
-  ;; -------------------
-  ;; ACTION: DECLARE CHECKMATE
-  ;; -------------------
+ 
+;; -------------------------
+;; ACTION: DECLARE CHECKMATE
+;; -------------------------
+  
   (:action declare_checkmate
     :parameters (?c - color ?p - piece ?kpos - square)
     :precondition (and
