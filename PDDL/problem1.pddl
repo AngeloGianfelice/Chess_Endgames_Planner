@@ -54,7 +54,7 @@
     
     ;; occupied squares
     (occupied_by_color a1 white)
-    (occupied_by_color b1 white)
+    (occupied_by_color c1 white)
     (occupied_by_color c3 black)
     (occupied_by_color d3 black)
     (occupied_by_color d4 black)
