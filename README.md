@@ -23,9 +23,9 @@ Chess_Endgames_Planner/
 │
 ├── PDDL/
 │   ├── domain.pddl                 # PDDL domain description (pieces, moves, predicates, etc.)
-│   ├── problem1_smothered.pddl     # Mate in 1 (Smothered Mate)
-│   ├── problem2_anastasia.pddl     # Mate in 3 (Anastasia’s Mate)
-│   └── problem3_damiano.pddl       # Mate in 5 (Damiano’s Mate)
+│   ├── problem1.pddl     # Mate in 1 (Smothered Mate)
+│   ├── problem2.pddl     # Mate in 3 (Anastasia’s Mate)
+│   └── problem3.pddl     # Mate in 5 (Damiano’s Mate)
 │
 ├── Indigolog/
 │   ├── chess.pl                    # Indigolog implementation of the chess domain and controllers
@@ -67,7 +67,7 @@ It focuses on *Anastasia’s Mate* and supports the following reasoning tasks:
 1. Install [ENHSP](https://github.com/hstairs/enhsp).
 2. Run a problem instance:
    ```bash
-   java -jar enhsp.jar -o PDDL/domain.pddl -f PDDL/problem1_smothered.pddl -sp gbfs -h hadd
+   java -jar enhsp.jar -o PDDL/domain.pddl -f PDDL/problem1.pddl -sp gbfs -h hadd
    ```
 
 ### Indigolog
@@ -80,6 +80,6 @@ It focuses on *Anastasia’s Mate* and supports the following reasoning tasks:
 ---
 
 ## 🧾 References
-
-- [ENHSP Planner](https://github.com/hstairs/enhsp)  
+- [ENHSP Planner's website](https://sites.google.com/view/enhsp/)
+- [ENHSP Planner's Repo](https://github.com/hstairs/enhsp)  
 
